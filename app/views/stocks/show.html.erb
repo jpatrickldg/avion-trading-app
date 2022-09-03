@@ -1,0 +1,7 @@
+<h3><%= @quote.symbol %></h3>
+<p><%= @quote.company_name %></p>
+<p>Price: <%= @quote.latest_price %></p>
+<p>Open: <%= @quote.open %></p>
+<p>Close: <%= @quote.close %></p>
+
+<%= link_to "Buy Stocks", buy_user_stocks_path({:id => @stock.id, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>

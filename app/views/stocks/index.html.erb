@@ -1,19 +1,47 @@
 <h1>Stocks Page</h1>
 <%= link_to 'Homepage', root_path %>
 
-<h1>Our Available Stocks</h1>
+<hr>
 
-<% @stocks.each do |stock| %>
-  <h4><%= stock.name %>, <%= stock.symbol %> | <%= link_to 'View Details', show_stock_path(stock) %></h4>
+<%= form_with(url: stocks_path, method: :get) do |form| %>
+  <%= form.label :q, "Search Stock" %>
+  <%= form.text_field :q %>
+  <%= form.submit "Search" %>
 <% end %>
 
-<br>
-<h1>Trending Stocks</h1>
+<% if @quote.present? %>
+  <h3><%= @quote.company_name %>, <%= @quote.symbol %></h3>
+  <% if @quote.open.present? %>
+    <p>Latest Price: $<%= @quote.latest_price %> | Open: $<%= @quote.open %> | Close: $<%= @quote.close %></p>
+  <% else %>
+    <p>Latest Price: $<%= @quote.latest_price %> | Open: Market Close | Close: Market Close</p>
+  <% end %>
 
+  <% if @stocks.where(symbol: @quote.symbol).any? %>
+    <% @stock = @stocks.where(symbol: @quote.symbol)%>
+    <%= link_to "Buy Shares", buy_stock_transactions_path({:stock_id => @stock.ids, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>
+  <% else %>
+    <p>Sorry we don't sell shares of this company, yet.</p>
+  <% end %>
+
+<% end %>
+
+<hr>
+
+<h1>Trending Stocks</h1>
 <% @client_list.each do |stock| %>
   <h4><%= stock.company_name %>, <%= stock.symbol %></h4>
   <p>Latest Price: <%= stock.latest_price %> | Open: <%= stock.open %> | Close: <%= stock.close %></p>
 <% end %>
+
+<hr>
+
+<h1>Our Available Stocks</h1>
+<% @stocks.each do |stock| %>
+  <h4><%= stock.name %>, <%= stock.symbol %> | <%= link_to 'View Details', show_stock_path(stock) %></h4>
+<% end %>
+
+
 
 <br>
 <%= link_to 'Homepage', root_path %>

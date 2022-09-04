@@ -4,6 +4,9 @@ class StocksController < ApplicationController
 
   def index
     @stocks = Stock.all
+    if params[:q].present?
+      @quote = @client.quote(params[:q])
+    end
   end
 
   def show

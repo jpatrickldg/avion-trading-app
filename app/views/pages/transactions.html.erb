@@ -1,0 +1,15 @@
+<h1><%= @user.email %> Transactions</h1>
+<%= link_to 'Back to Homepage', root_path  %>
+
+<hr>
+
+<% @transactions.each do |transaction| %>
+  <h3><%= @stock.find(transaction.stock_id).symbol %></h3>
+  <h4><%= @stock.find(transaction.stock_id).name %></h4>
+  <p>Amount: <%= transaction.amount %></p>
+  <p>Quantity: <%= transaction.quantity %></p>
+  <p>Date: <%= transaction.created_at %></p>
+  <hr>
+<% end %>  
+
+<%= link_to 'Back to Homepage', root_path  %>

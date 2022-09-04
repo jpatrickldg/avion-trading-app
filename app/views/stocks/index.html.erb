@@ -2,5 +2,6 @@
 
 <% @stocks.each do |stock| %>
   <p><%= stock.name %>, <%= stock.symbol %> | <%= link_to 'View Details', show_stock_path(stock) %></p>
-  
 <% end %>
+
+<%= link_to 'Back', root_path %>

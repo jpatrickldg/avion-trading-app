@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
-  get '/transactions' => 'transactions#index', :as => 'transactions'
-  post '/transactions' => 'transactions#create', :as => 'create_transactions'
-  
-  get '/stocks/:id/buy' => 'transactions#buy', :as => 'buy_user_stocks'
   root 'pages#home'
+  get '/portfolio' => 'pages#portfolio', :as => 'user_portfolio'
+  get '/transactions' => 'pages#transactions', :as => 'user_transactions'
+
+
+  # get '/transactions' => 'transactions#index', :as => 'transactions'
+  get '/stocks/:stock_id/transactions' => 'transactions#stock_transactions', :as => 'stock_transactions'
+  post '/stocks/:stock_id/transactions' => 'transactions#create', :as => 'create_stock_transactions'
+  
+  get '/stocks/:stock_id/transactions/buy' => 'transactions#buy', :as => 'buy_stock_transactions'
   get '/stocks' => 'stocks#index', :as => 'stocks'
   get '/stocks/:id' => 'stocks#show', :as => 'show_stock'
   # get '/users/:user_id' => "pages#dashboard", :as => :user_root

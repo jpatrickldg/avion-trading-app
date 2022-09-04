@@ -1,4 +1,43 @@
 <h1>Transactions#buy</h1>
 <p>Find me in app/views/transactions/buy.html.erb</p>
 
+<h1>Buy Stock</h1>
 
+<%= form_with model: [@stock, @transaction], local: true do |f| %>
+  <p>
+    <% if @transaction.errors.any?  %>
+      <ul>
+        <% @transaction.errors..each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :value => params[:name]%>
+  </p>
+
+  <p>
+    <%= f.label :symbol %><br />
+    <%= f.text_field :symbol, :value => params[:symbol] %>
+  </p>
+
+  <p>
+    <%= f.label :price %><br />
+    <%= f.text_field :price, :value => params[:price], readonly: true %>
+  </p>
+
+  <p>
+    <%= f.label :quantity %><br />
+    <%= f.text_field :quantity %>
+  </p>
+
+ 
+    
+  <p>
+    <%= f.submit 'Buy Stock' %>
+  </p>
+  
+<% end %>

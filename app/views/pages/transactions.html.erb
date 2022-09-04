@@ -4,8 +4,7 @@
 <hr>
 
 <% @transactions.each do |transaction| %>
-  <h3><%= @stock.find(transaction.stock_id).symbol %></h3>
-  <h4><%= @stock.find(transaction.stock_id).name %></h4>
+  <h3><%= @stocks.find(transaction.stock_id).name %>, <%= @stocks.find(transaction.stock_id).symbol %></h3>
   <p>Amount: <%= transaction.amount %></p>
   <p>Quantity: <%= transaction.quantity %></p>
   <p>Date: <%= transaction.created_at %></p>

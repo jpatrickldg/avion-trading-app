@@ -1,7 +1,19 @@
+<h1>Stocks Page</h1>
+<%= link_to 'Homepage', root_path %>
+
 <h1>Our Available Stocks</h1>
 
 <% @stocks.each do |stock| %>
-  <p><%= stock.name %>, <%= stock.symbol %> | <%= link_to 'View Details', show_stock_path(stock) %></p>
+  <h4><%= stock.name %>, <%= stock.symbol %> | <%= link_to 'View Details', show_stock_path(stock) %></h4>
 <% end %>
 
-<%= link_to 'Back', root_path %>
+<br>
+<h1>Trending Stocks</h1>
+
+<% @client_list.each do |stock| %>
+  <h4><%= stock.company_name %>, <%= stock.symbol %></h4>
+  <p>Latest Price: <%= stock.latest_price %> | Open: <%= stock.open %> | Close: <%= stock.close %></p>
+<% end %>
+
+<br>
+<%= link_to 'Homepage', root_path %>

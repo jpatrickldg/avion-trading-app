@@ -19,7 +19,7 @@
 
   <% if @stocks.where(symbol: @quote.symbol).any? %>
     <% @stock = @stocks.where(symbol: @quote.symbol)%>
-    <%= link_to "Buy Shares", buy_stock_transactions_path({:stock_id => @stock.ids, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>
+    <%= link_to "Buy Shares", buy_stock_path({:stock_id => @stock.ids, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>
   <% else %>
     <p>Sorry we don't sell shares of this company, yet.</p>
   <% end %>

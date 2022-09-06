@@ -1,0 +1,47 @@
+<h1>Transactions#sell</h1>
+<p>Find me in app/views/transactions/buy.html.erb</p>
+
+<h1>Sell Shares</h1>
+
+<%= form_with model: [@stock, @transaction], url: create_sell_stock_transactions_path, local: true do |f| %>
+
+  <%= f.hidden_field :transaction_type, :value => 'Sell' %>
+  <%= f.hidden_field :price, :value => params[:price] %>
+  <p>
+    <% if @transaction.errors.any?  %>
+      <ul>
+        <% @transaction.errors..each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :value => params[:name]%>
+  </p>
+
+  <p>
+    <%= f.label :symbol %><br />
+    <%= f.text_field :symbol, :value => params[:symbol] %>
+  </p>
+
+
+  <p>
+    <%= f.label :quantity %><br />
+    <%= f.text_field :quantity, :value => params[:quantity], readonly: true %>
+  </p>
+
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount, :value => params[:amount], readonly: true %>
+  </p>
+
+ 
+  <p>
+    <%= f.submit 'Sell' %>
+  </p>
+  
+<% end %>
+

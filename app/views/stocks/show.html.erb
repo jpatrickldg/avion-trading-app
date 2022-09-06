@@ -4,4 +4,4 @@
 <p>Open: <%= @quote.open %></p>
 <p>Close: <%= @quote.close %></p>
 
-<%= link_to "Buy Shares", buy_stock_transactions_path({:stock_id => @stock.id, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>
+<%= link_to "Buy Shares", buy_stock_path({:stock_id => @stock.id, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>

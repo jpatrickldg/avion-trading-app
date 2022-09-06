@@ -3,7 +3,7 @@
 
 <h1>Buy Shares</h1>
 
-<%= form_with model: [@stock, @transaction], local: true do |f| %>
+<%= form_with model: [@stock, @transaction], url: create_buy_stock_transactions_path, local: true do |f| %>
 
   <%= f.hidden_field :transaction_type, :value => 'Buy' %>
   <p>

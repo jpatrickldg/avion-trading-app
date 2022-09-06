@@ -15,9 +15,10 @@ Rails.application.routes.draw do
   ##################################TRANSACTION ROUTES#################################
   # get '/transactions' => 'transactions#index', :as => 'transactions'
   get '/stocks/:stock_id/transactions' => 'transactions#stock_transactions', :as => 'stock_transactions'
-  post '/stocks/:stock_id/transactions' => 'transactions#create', :as => 'create_stock_transactions'
-  get '/stocks/:stock_id/transactions/sell' => 'transactions#sell', :as => 'sell_stock_transactions'
-  get '/stocks/:stock_id/transactions/buy' => 'transactions#buy', :as => 'buy_stock_transactions'
+  post '/stocks/:stock_id/transactions' => 'transactions#create_buy_transaction', :as => 'create_buy_stock_transactions'
+  post '/stocks/:stock_id/transactions' => 'transactions#create_sell_transaction', :as => 'create_sell_stock_transactions'
+  get '/stocks/:stock_id/transactions/sell' => 'transactions#sell', :as => 'sell_stock'
+  get '/stocks/:stock_id/transactions/buy' => 'transactions#buy', :as => 'buy_stock'
   get '/stocks' => 'stocks#index', :as => 'stocks'
   get '/stocks/:id' => 'stocks#show', :as => 'show_stock'
   #########################################################################################

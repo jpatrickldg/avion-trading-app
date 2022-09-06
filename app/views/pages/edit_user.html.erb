@@ -1,0 +1,29 @@
+<h1>Edit User</h1>
+
+<%= form_with model: @user, url: admin_update_user_path, method: :patch,  local: true do |f| %>
+
+
+  <p>
+    <% if @user.errors.any? %>
+      <ul>
+        <% @user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+          <% end %>
+      </ul>
+    <% end %>
+  </p>
+  
+  <p>
+    <%= f.label :first_name %><br>
+    <%= f.text_field :first_name %>
+  </p>
+
+  <p>
+    <%= f.label :last_name %><br>
+    <%= f.text_field :last_name %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

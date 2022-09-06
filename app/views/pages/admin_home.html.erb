@@ -1,18 +1,14 @@
 <% if current_user %>
   <h1>Welcome, <%= current_user.first_name.upcase %></h1>
   <p>You are a <%= current_user.role %></p>
-  <%= link_to "Go to Stocks Page", stocks_path %> <br>
-  <%= link_to "Go to Portfolio Page", user_portfolio_path %> <br>
-  <%= link_to "Go to Transactions Page", user_transactions_path %>
-  <br>
-  <br>
+  <h1>Registered Users</h1>
+  <% @users.each do |user| %>
+    <h3><%= user.email %> | <%= user.first_name %></h3>
+    <%= link_to "Edit User", admin_edit_user_path(user) %>
+  <% end %>
+  <%= button_to "New User", admin_new_user_path, method: :get %>
   <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
 <% else %>
   <p>No account yet? <%= link_to "Sign up!", new_user_registration_path %></p>
   <p>Already have an account? <%= link_to "Login", new_user_session_path %></p>
 <% end %>
-
-
-
-
-

@@ -7,6 +7,7 @@
 
   <%= f.hidden_field :transaction_type, :value => 'Sell' %>
   <%= f.hidden_field :price, :value => params[:price] %>
+  <%= f.hidden_field :is_active, :value => false %>
   <p>
     <% if @transaction.errors.any?  %>
       <ul>

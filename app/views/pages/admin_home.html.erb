@@ -1,13 +1,21 @@
 <% if current_user %>
   <h1>Welcome, <%= current_user.first_name.upcase %></h1>
-  <p>You are a <%= current_user.role %></p>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
   <h1>Registered Users</h1>
   <% @users.each do |user| %>
-    <h3><%= user.email %> | <%= user.first_name %></h3>
-    <%= link_to "Edit User", admin_edit_user_path(user) %>
+    <h3><%= user.email %> | <%= user.first_name %> | <%= link_to "Edit User", admin_edit_user_path(user) %></h3>
+    
   <% end %>
-  <%= button_to "New User", admin_new_user_path, method: :get %>
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+  <%= button_to "New User", admin_new_user_path, method: :get %> <br>
+  <hr>
+  <h1>All transactions</h1>
+  <% if @transactions.any? %>
+    <% @transactions.each do |transaction| %>
+      <p>Date: <%= transaction.created_at %> | User: <%= @users.find(transaction.user_id).email %>| Type: <%= transaction.transaction_type %> | Company: <%= @stocks.find(transaction.stock_id).name %> | Quantity: <%= transaction.quantity %> | Price: <%= transaction.price %> | Total Amount: <%= transaction.amount %></p>
+    <% end %>
+  <% else %>
+    <h2>No transactions found on the system</h2>
+  <% end %>
 <% else %>
   <p>No account yet? <%= link_to "Sign up!", new_user_registration_path %></p>
   <p>Already have an account? <%= link_to "Login", new_user_session_path %></p>

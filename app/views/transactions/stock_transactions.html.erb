@@ -1,14 +1,16 @@
 <h1>Stocks you own</h1>
 
 <% @transactions.each do |transaction| %>
-  <h3><%= @stocks.find(transaction.stock_id).name %>, <%= @stocks.find(transaction.stock_id).symbol %></h3>
+  <% @stock = @stocks.find(transaction.stock_id) %>
+  <% @api = @client.quote(@stock.symbol) %>
+  <h3><%= @stock.name %>, <%= @stock.symbol %></h3>
   <p>Amount: <%= transaction.amount %></p>
   <p>Quantity: <%= transaction.quantity %></p>
-  <p>Current Price: <%= @client.quote(@stocks.find(transaction.stock_id).symbol).latest_price %></p>
-  <p>Current Value: <%= @client.quote(@stocks.find(transaction.stock_id).symbol).latest_price * transaction.quantity %></p>
+  <p>Current Price: <%= @api.latest_price %></p>
+  <p>Current Value: <%= @api.latest_price * transaction.quantity %></p>
   <p>Date: <%= transaction.created_at %></p>
 
-  <%= link_to "Sell Shares", sell_stock_path({:stock_id => @stocks.find(transaction.stock_id), :name => @stocks.find(transaction.stock_id).name, :symbol => @stocks.find(transaction.stock_id).symbol, :price => @client.quote(@stocks.find(transaction.stock_id).symbol).latest_price, :amount => @client.quote(@stocks.find(transaction.stock_id).symbol).latest_price * transaction.quantity, :quantity => transaction.quantity * -1}) %>
+  <%= link_to "Sell Shares", sell_stock_path({:stock_id => @stock, :name => @stock.name, :symbol => @stock.symbol, :price => @api.latest_price, :amount => @api.latest_price * transaction.quantity, :quantity => transaction.quantity}) %>
 
   <hr>
 <% end %>  

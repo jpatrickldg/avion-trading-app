@@ -2,16 +2,20 @@
 <%= link_to 'Back to Homepage', root_path  %>
 
 <hr>
+<% if @unique.any? %>
+  <% @unique.each do |transaction| %>
+    <% @trans = @stocks.find(transaction.stock_id) %>
+    <% @api =  @client.quote(@trans.symbol) %>
+    <h3><%= @trans.name %>, <%= @trans.symbol %></h3>
 
-<% @unique.each do |transaction| %>
-  <% @trans = @stocks.find(transaction.stock_id) %>
-  <h3><%= @trans.name %>, <%= @trans.symbol %></h3>
-
-  <p>Total Shares: <%= transaction.total_quantity %></p>
-  <p>Current Price: <%= @client.quote(@trans.symbol).latest_price %></p>
-  <p>Current Value: <%= @client.quote(@trans.symbol).latest_price * transaction.total_quantity %></p>
-  <%= link_to 'View Details', stock_transactions_path(transaction.stock_id) %>
-  <hr>
-<% end %>  
+    <p>Total Shares: <%= transaction.total_quantity %></p>
+    <p>Current Price: <%= @api.latest_price %></p>
+    <p>Current Value: <%= @api.latest_price * transaction.total_quantity %></p>
+    <%= link_to 'View Details', stock_transactions_path(transaction.stock_id) %>
+    <hr>
+  <% end %>
+<% else %>  
+  <h2>You have no shares yet</h2>
+<% end %>
 
 <%= link_to 'Back to Homepage', root_path  %>

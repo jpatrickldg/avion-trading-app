@@ -8,6 +8,8 @@ class PagesController < ApplicationController
 
   def admin_home
     @users = User.where(role: 'trader')
+    @transactions = Transaction.all.order(:created_at).reverse_order
+    @stocks = Stock.all
   end
 
   def new_user
@@ -39,7 +41,8 @@ class PagesController < ApplicationController
 
   def portfolio
     require 'iex-ruby-client'
-    @unique = @transactions.select('stock_id as stock_id, sum(quantity) as total_quantity').group(:stock_id)
+    @active = @transactions.where(is_active: true)
+    @unique = @active.select('stock_id as stock_id, sum(quantity) as total_quantity').group(:stock_id)
 
     @client = IEX::Api::Client.new
     @client_list = @client.stock_market_list(:mostactive)

@@ -6,6 +6,7 @@
 <%= form_with model: [@stock, @transaction], url: create_buy_stock_transactions_path, local: true do |f| %>
 
   <%= f.hidden_field :transaction_type, :value => 'Buy' %>
+  <%= f.hidden_field :is_active, :value => true %>
   <p>
     <% if @transaction.errors.any?  %>
       <ul>

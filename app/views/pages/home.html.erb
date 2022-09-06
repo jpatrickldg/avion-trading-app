@@ -1,6 +1,5 @@
 <% if current_user %>
   <h1>Welcome, <%= current_user.first_name.upcase %></h1>
-  <p>You are a <%= current_user.role %></p>
   <%= link_to "Go to Stocks Page", stocks_path %> <br>
   <%= link_to "Go to Portfolio Page", user_portfolio_path %> <br>
   <%= link_to "Go to Transactions Page", user_transactions_path %>

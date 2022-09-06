@@ -1,9 +1,11 @@
 <h1>Transactions#buy</h1>
 <p>Find me in app/views/transactions/buy.html.erb</p>
 
-<h1>Buy Stock</h1>
+<h1>Buy Shares</h1>
 
 <%= form_with model: [@stock, @transaction], local: true do |f| %>
+
+  <%= f.hidden_field :transaction_type, :value => 'Buy' %>
   <p>
     <% if @transaction.errors.any?  %>
       <ul>
@@ -37,7 +39,7 @@
  
     
   <p>
-    <%= f.submit 'Buy Stock' %>
+    <%= f.submit 'Buy' %>
   </p>
   
 <% end %>

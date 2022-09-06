@@ -10,6 +10,7 @@
   <p>Total Shares: <%= transaction.total_quantity %></p>
   <p>Current Price: <%= @client.quote(@trans.symbol).latest_price %></p>
   <p>Current Value: <%= @client.quote(@trans.symbol).latest_price * transaction.total_quantity %></p>
+  <%= link_to 'View Details', stock_transactions_path(transaction.stock_id) %>
   <hr>
 <% end %>  
 

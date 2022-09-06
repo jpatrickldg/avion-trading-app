@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # get '/transactions' => 'transactions#index', :as => 'transactions'
   get '/stocks/:stock_id/transactions' => 'transactions#stock_transactions', :as => 'stock_transactions'
   post '/stocks/:stock_id/transactions' => 'transactions#create', :as => 'create_stock_transactions'
+  get '/stocks/:stock_id/transactions/sell' => 'transactions#sell', :as => 'sell_stock_transactions'
   
   get '/stocks/:stock_id/transactions/buy' => 'transactions#buy', :as => 'buy_stock_transactions'
   get '/stocks' => 'stocks#index', :as => 'stocks'

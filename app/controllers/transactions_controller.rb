@@ -3,7 +3,8 @@ class TransactionsController < ApplicationController
   before_action :get_user
 
   def stock_transactions
-    @transactions = @stock.transactions
+    @transactions = @stock.transactions.where(user_id: @user.id)
+    @stocks = Stock.all
   end
 
   def buy
@@ -13,13 +14,20 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @stock.transactions.build(transaction_params)
     @transaction.user_id = current_user.id
-    @transaction.transaction_type = "Buy"
     @transaction.amount = @transaction.price.to_f * @transaction.quantity.to_f
     if @transaction.save!
       redirect_to user_transactions_path
     else
       render :buy
     end
+  end
+
+  def sell
+    @transaction = @stock.transactions.build
+  end
+
+  def destroy
+    
   end
 
   def get_stock

@@ -1,1 +1,9 @@
-Bought!
+<h1>Stocks you own</h1>
+
+<% @transactions.each do |transaction| %>
+  <h3><%= @stocks.find(transaction.stock_id).name %>, <%= @stocks.find(transaction.stock_id).symbol %></h3>
+  <p>Amount: <%= transaction.amount %></p>
+  <p>Quantity: <%= transaction.quantity %></p>
+  <p>Date: <%= transaction.created_at %></p>
+  <hr>
+<% end %>  

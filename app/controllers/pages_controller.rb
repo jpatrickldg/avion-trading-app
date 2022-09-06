@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_action :get_user
   before_action :authenticate_user!, except: [:home]
-  before_action :set_stocks_and_transactions, only: [:portfolio, :transactions]
+  before_action :set_stocks_and_transactions, only: [:portfolio]
 
   def home
     @users = User.all
@@ -19,7 +19,8 @@ class PagesController < ApplicationController
   end
 
   def transactions
-    
+    @transactions = @user.transactions.order(:created_at).reverse_order
+    @stocks = Stock.all
   end
 
   def set_stocks_and_transactions

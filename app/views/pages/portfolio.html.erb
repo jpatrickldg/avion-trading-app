@@ -3,19 +3,36 @@
 
 <hr>
 <% if @unique.any? %>
-  <% @unique.each do |transaction| %>
-    <% @trans = @stocks.find(transaction.stock_id) %>
-    <% @api =  @client.quote(@trans.symbol) %>
-    <h3><%= @trans.name %>, <%= @trans.symbol %></h3>
 
-    <p>Total Shares: <%= transaction.total_quantity %></p>
-    <p>Current Price: <%= @api.latest_price %></p>
-    <p>Current Value: <%= @api.latest_price * transaction.total_quantity %></p>
-    <%= link_to 'View Details', stock_transactions_path(transaction.stock_id) %>
-    <hr>
-  <% end %>
+  <table>
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Symbol</th>
+        <th>Total Shares</th>
+        <th>Current Price</th>
+        <th>Current Value</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @unique.each do |transaction| %>
+        <% @trans = @stocks.find(transaction.stock_id) %>
+        <% @api =  @client.quote(@trans.symbol) %>
+        <% @current_value = @api.latest_price * transaction.total_quantity %>
+        <tr>
+          <td><%= @trans.name %></td>
+          <td><%= @trans.symbol %></td>
+          <td><%= transaction.total_quantity %></td>
+          <td><%= number_to_currency(@api.latest_price, precision: 2) %></td>
+          <td><%= number_to_currency(@current_value, precision: 2) %></td>
+          <td><%= link_to 'View Details', stock_transactions_path(transaction.stock_id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>  
   <h2>You have no shares yet</h2>
 <% end %>
-
+<hr>
 <%= link_to 'Back to Homepage', root_path  %>

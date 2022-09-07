@@ -1,0 +1,22 @@
+<h1>Activate User</h1>
+
+<%= form_with model: @user, url: admin_update_user_path, method: :patch,  local: true do |f| %>
+
+  <p>
+    <% if @user.errors.any? %>
+      <ul>
+        <% @user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+          <% end %>
+      </ul>
+    <% end %>
+  </p>
+  
+  <h1>Activate <%= @user.email %>?</h1>
+  <%= f.hidden_field :is_active, :value => true %>
+
+
+  <p>
+    <%= f.submit 'Activate' %> | <%= button_to 'Cancel', admin_home_path %>
+  </p>
+<% end %>

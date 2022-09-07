@@ -6,7 +6,7 @@ class Transaction < ApplicationRecord
 
   def set_is_active
     if self.transaction_type == 'Sell'
-      trans = Transaction.where(amount: self.amount, transaction_type: 'Buy', quantity: self.quantity)
+      trans = Transaction.where(amount: self.amount, transaction_type: 'Buy', quantity: self.quantity, is_active: true)
       trans.update is_active: false
 
     end

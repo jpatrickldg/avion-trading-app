@@ -1,32 +1,35 @@
-<h1><%= @user.email %> Transactions</h1>
-<%= link_to 'Back to Homepage', root_path  %>
-
-<hr>
-
+<h1>Transactions</h1>
+<%= link_to 'Back to Homepage', admin_home_path  %>
+<br>
+<br>
 <table>
   <thead>
     <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>User</th>
       <th>Company</th>
       <th>Symbol</th>
-      <th>Type</th>
       <th>Quantity</th>
+      <th>Price</th>
       <th>Amount</th>
-      <th>Date</th>
     </tr>
   </thead>
   <tbody>
     <% @transactions.each do |transaction| %>
       <tr>
+        <td><%= transaction.id %></td>
+        <td><%= transaction.transaction_type %></td>
+        <td><%= @users.find(transaction.user_id).email %></td>
         <td><%= @stocks.find(transaction.stock_id).name %></td>
         <td><%= @stocks.find(transaction.stock_id).symbol %></td>
-        <td><%= transaction.transaction_type %></td>
         <td><%= transaction.quantity %></td>
+        <td><%= number_to_currency(transaction.price, precision: 2) %></td>
         <td><%= number_to_currency(transaction.amount, precision: 2) %></td>
-        <td><%= transaction.created_at %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<br>
 
-
-<%= link_to 'Back to Homepage', root_path  %>
+<%= link_to 'Back to Homepage', admin_home_path  %>

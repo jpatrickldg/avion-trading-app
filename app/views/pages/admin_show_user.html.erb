@@ -1,0 +1,82 @@
+<h1>User <%= @user.email %> Details</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Date Registered</th>
+      <th>Activated</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><%= @user.email %></td>
+        <td><%= @user.first_name %></td>
+        <td><%= @user.last_name %></td>
+        <td><%= @user.created_at %></td>
+        <td><%= @user.is_active %></td>
+      </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1>Portfolio</h1>
+<% if @unique.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Symbol</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @unique.each do |uni| %>
+      <% @stock = @stocks.find(uni.stock_id) %>
+        <tr>
+          <td><%= @stock.name %></td>
+          <td><%= @stock.symbol %></td>
+          <td><%= uni.total_quantity %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>User has no company shares</p>
+<% end %>
+
+<hr>
+
+<h1>Transactions</h1>
+<% if @user.transactions.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Company</th>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user.transactions.each do |transaction| %>
+      <% @stock = @stocks.find(transaction.stock_id) %>
+        <tr>
+          <td><%= transaction.created_at %></td>
+          <td><%= transaction.transaction_type %></td>
+          <td><%= @stock.name %></td>
+          <td><%= @stock.symbol %></td>
+          <td><%= transaction.quantity %></td>
+          <td><%= transaction.amount %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>User has no transactions</p>
+<% end %>

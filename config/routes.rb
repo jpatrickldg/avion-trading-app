@@ -3,11 +3,17 @@ Rails.application.routes.draw do
 
   #################################PAGES ROUTES######################################
   get '/admin' => 'pages#admin_home', :as => 'admin_home'
+  get '/admin/transactions' => 'pages#admin_transactions', :as => 'admin_transactions'
   post '/admin/users' => 'pages#create_user', :as => 'admin_create_user'
   get '/admin/users/new_user' => 'pages#new_user', :as => 'admin_new_user'
+  
   get 'admin/users/:id/edit' => 'pages#edit_user', as: 'admin_edit_user'
-  get 'admin/users/:id' => 'pages#show', as: 'admin_show_user'
-  patch 'admin/users/:id' => 'pages#update', as: 'admin_update_user'
+  get 'admin/users/:id/activate' => 'pages#activate_user', as: 'admin_activate_user'
+  get 'admin/users/:id/' => 'pages#admin_show_user', as: 'admin_show_user'
+  patch 'admin/users/:id' => 'pages#update_user', as: 'admin_update_user'
+
+  # patch 'admin/users/:id' => 'pages#update_activate_user', as: 'admin_update_activate_user'
+
   get '/portfolio' => 'pages#portfolio', :as => 'user_portfolio'
   get '/transactions' => 'pages#transactions', :as => 'user_transactions'
   #####################################################################################

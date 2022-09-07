@@ -4,7 +4,7 @@
 <hr>
 
 <%= form_with(url: stocks_path, method: :get) do |form| %>
-  <%= form.label :q, "Search Stock" %>
+  <%= form.label :q, "Search Company" %>
   <%= form.text_field :q %>
   <%= form.submit "Search" %>
 <% end %>
@@ -29,18 +29,68 @@
 <hr>
 
 <h1>Trending Stocks</h1>
-<% @client_list.each do |stock| %>
-  <h4><%= stock.company_name %>, <%= stock.symbol %></h4>
-  <p>Latest Price: <%= stock.latest_price %> | Open: <%= stock.open %> | Close: <%= stock.close %></p>
-<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Symbol</th>
+      <th>Latest Price</th>
+      <th>Open</th>
+      <th>Close</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @client_list.each do |stock| %>
+      <tr>
+        <td><%= stock.company_name %></td>
+        <td><%= stock.symbol %></td>
+        <td><%= stock.latest_price %></td>
+        <% if stock.open.present? %>
+          <td><%= stock.open %></td>
+          <td><%= stock.close %></td>
+        <% else %>
+          <td>Market Close</td>
+          <td>Market Close</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <hr>
 
-<h1>Our Available Stocks</h1>
-<% @stocks.each do |stock| %>
-  <h4><%= stock.name %>, <%= stock.symbol %> | <%= link_to 'View Details', show_stock_path(stock) %></h4>
-<% end %>
+<h1>Stocks We Offer</h1>
 
+<table>
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Symbol</th>
+      <th>Latest Price</th>
+      <th>Open</th>
+      <th>Close</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stocks.each do |stock| %>
+      <% @api = @client.quote(stock.symbol) %>
+      <tr>
+        <td><%= stock.name %></td>
+        <td><%= stock.symbol %></td>
+        <td><%= @api.latest_price %></td>
+        <% if @api.open.present? %>
+          <td><%= @api.open %></td>
+          <td><%= @api.close %></td>
+        <% else %>
+          <td>Market Close</td>
+          <td>Market Close</td>
+        <% end %>
+        <td><%= link_to "Buy Shares", buy_stock_path({:stock_id => stock, :name => stock.name, :symbol => stock.symbol, :price => @api.latest_price}) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 
 <br>

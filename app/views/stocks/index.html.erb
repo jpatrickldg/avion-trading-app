@@ -1,96 +1,112 @@
 <h1>Stocks Page</h1>
 <%= link_to 'Homepage', root_path %>
 
-<hr>
 
-<%= form_with(url: stocks_path, method: :get) do |form| %>
-  <%= form.label :q, "Search Company" %>
-  <%= form.text_field :q %>
-  <%= form.submit "Search" %>
-<% end %>
+
+<div class="relative mb-5">
+  <%= form_with(url: stocks_path, method: :get) do |form| %>
+    <%= form.label :q, "Search Company", class: 'mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300' %>
+    <%= form.text_field :q, placeholder: 'Search Company (SYM)', class: 'block p-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+    <%= form.submit "Search", class: 'text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' %>
+  <% end %>
+</div>
 
 <% if @quote.present? %>
-  <h3><%= @quote.company_name %>, <%= @quote.symbol %></h3>
-  <% if @quote.open.present? %>
-    <p>Latest Price: $<%= @quote.latest_price %> | Open: $<%= @quote.open %> | Close: $<%= @quote.close %></p>
-  <% else %>
-    <p>Latest Price: $<%= @quote.latest_price %> | Open: Market Close | Close: Market Close</p>
-  <% end %>
-
-  <% if @stocks.where(symbol: @quote.symbol).any? %>
-    <% @stock = @stocks.where(symbol: @quote.symbol)%>
-    <%= link_to "Buy Shares", buy_stock_path({:stock_id => @stock.ids, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>
-  <% else %>
-    <p>Sorry we don't sell shares of this company, yet.</p>
-  <% end %>
-
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th class="py-3 px-6">Company</th>
+          <th class="py-3 px-6 text-center">Symbol</th>
+          <th class="py-3 px-6 text-center">Latest Price</th>
+          <th class="py-3 px-6 text-center">Change</th>
+          <th class="py-3 px-6"><span class="sr-only">Buy</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= @quote.company_name %></td>
+          <td class="py-3 px-6 text-center"><%= @quote.symbol %></td>
+          <td class="py-3 px-6 text-center"><%= number_to_currency(@quote.latest_price, precision: 2) %></td>
+          <% if @quote.change < 0 %>
+            <td class="py-3 px-6 text-red-600 text-center"><%= @quote.change %></td>
+          <% else %>
+            <td class="py-3 px-6 text-green-600 text-center"><%= @quote.change %></td>
+          <% end %>
+          <% if @stocks.where(symbol: @quote.symbol).any? %>
+            <% @stock = @stocks.where(symbol: @quote.symbol)%>
+            <td class="py-3 px-6 text-center"><%= link_to "Buy Shares", buy_stock_path({:stock_id => @stock.ids, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}), class: 'font-medium text-blue-600 dark:text-blue-500 hover:underline' %></td>
+          <% else %>
+            <td class="py-3 px-6 text-center">Not Available</td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 <% end %>
-
-<hr>
 
 <h1>Trending Stocks</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Company</th>
-      <th>Symbol</th>
-      <th>Latest Price</th>
-      <th>Open</th>
-      <th>Close</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @client_list.each do |stock| %>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
-        <td><%= stock.company_name %></td>
-        <td><%= stock.symbol %></td>
-        <td><%= stock.latest_price %></td>
-        <% if stock.open.present? %>
-          <td><%= stock.open %></td>
-          <td><%= stock.close %></td>
-        <% else %>
-          <td>Market Close</td>
-          <td>Market Close</td>
-        <% end %>
+        <th class="py-3 px-6">Company</th>
+        <th class="py-3 px-6 text-center">Symbol</th>
+        <th class="py-3 px-6 text-center">Latest Price</th>
+        <th class="py-3 px-6 text-center">Change</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @client_list.each do |stock| %>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= stock.company_name %></td>
+          <td class="py-3 px-6 text-center"><%= stock.symbol %></td>
+          <td class="py-3 px-6 text-center"><%= number_to_currency(stock.latest_price, precision: 2) %></td>
+          <% if stock.change < 0 %>
+            <td class="py-3 px-6 text-red-600 text-center"><%= stock.change %></td>
+          <% else %>
+            <td class="py-3 px-6 text-green-600 text-center"><%= stock.change %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<hr>
+
 
 <h1>Stocks We Offer</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Company</th>
-      <th>Symbol</th>
-      <th>Latest Price</th>
-      <th>Open</th>
-      <th>Close</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @stocks.each do |stock| %>
-      <% @api = @client.quote(stock.symbol) %>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
-        <td><%= stock.name %></td>
-        <td><%= stock.symbol %></td>
-        <td><%= @api.latest_price %></td>
-        <% if @api.open.present? %>
-          <td><%= @api.open %></td>
-          <td><%= @api.close %></td>
-        <% else %>
-          <td>Market Close</td>
-          <td>Market Close</td>
-        <% end %>
-        <td><%= link_to "Buy Shares", buy_stock_path({:stock_id => stock, :name => stock.name, :symbol => stock.symbol, :price => @api.latest_price}) %></td>
+        <th class="py-3 px-6">Company</th>
+        <th class="py-3 px-6 text-center">Symbol</th>
+        <th class="py-3 px-6 text-center">Latest Price</th>
+        <th class="py-3 px-6 text-center">Change</th>
+        <th class="py-3 px-6"><span class="sr-only">Buy</span></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @stocks.each do |stock| %>
+        <% @api = @client.quote(stock.symbol) %>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"><%= stock.name %></td>
+          <td class="py-3 px-6 text-center"><%= stock.symbol %></td>
+          <td class="py-3 px-6 text-center"><%= number_to_currency(@api.latest_price, precision: 2) %></td>
+          <% if @api.change < 0 %>
+            <td class="py-3 px-6 text-red-600 text-center"><%= @api.change %></td>
+          <% else %>
+            <td class="py-3 px-6 text-green-600 text-center"><%= @api.change %></td>
+          <% end %>
+          <td class="py-3 px-6 text-center"><%= link_to "Buy Shares", buy_stock_path({:stock_id => stock, :name => stock.name, :symbol => stock.symbol, :price => @api.latest_price}), class: 'font-medium text-blue-600 dark:text-blue-500 hover:underline' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 
 <br>

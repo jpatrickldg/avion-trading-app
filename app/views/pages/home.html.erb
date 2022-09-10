@@ -1,17 +1,134 @@
 <% if current_user %>
-  <h1>Welcome, <%= current_user.first_name.upcase %></h1>
-  <%= link_to "Go to Stocks Page", stocks_path %> <br>
-  <%= link_to "Go to Portfolio Page", user_portfolio_path %> <br>
-  <%= link_to "Go to Transactions Page", user_transactions_path %>
-  <br>
-  <br>
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+
+  <div class="mb-4">
+    <h1 class="w-full text-xl font-bold text-white mb-2">Welcome, <%= current_user.first_name.upcase %></h1>
+
+    <% if !current_user.is_active %>
+      <div>
+        <p>Your account is not activated yet. Buying of shares is prohibited.</p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-5">
+    <%= form_with(url: root_path, method: :get) do |form| %>
+      <%= form.label :q, "Search Company", class: 'mb-2 text-sm font-medium sr-only text-gray-300' %>
+      <div class="relative">
+        <%= form.text_field :q, placeholder: 'Search Company (SYM)', class: 'block p-4 w-full text-sm rounded-lg border focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 dark:focus:border-blue-500' %>
+        <%= form.submit "Search", class: 'text-white absolute right-2.5 bottom-2.5 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 hover:cursor-pointer' %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @quote.present? %>
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
+      <table class="w-full text-sm text-left text-gray-400">
+        <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+          <tr>
+            <th class="py-3 px-6">Company</th>
+            <th class="py-3 px-6 text-center">Symbol</th>
+            <th class="py-3 px-6 text-center">Latest Price</th>
+            <th class="py-3 px-6 text-center">Change</th>
+            <th class="py-3 px-6 text-center">Buy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
+            <td class="py-3 px-6 font-medium whitespace-nowrap text-white"><%= @quote.company_name %></td>
+            <td class="py-3 px-6 text-center"><%= @quote.symbol %></td>
+            <td class="py-3 px-6 text-center"><%= number_to_currency(@quote.latest_price, precision: 2) %></td>
+            <% if @quote.change < 0 %>
+              <td class="py-3 px-6 text-red-600 text-center"><%= @quote.change %></td>
+            <% else %>
+              <td class="py-3 px-6 text-green-600 text-center"><%= @quote.change %></td>
+            <% end %>
+            <% if @stocks.where(symbol: @quote.symbol).any? && current_user.is_active %>
+              <% @stock = @stocks.where(symbol: @quote.symbol)%>
+              <td class="py-3 px-6 text-center"><%= link_to "Buy Shares", buy_stock_path({:stock_id => @stock.ids, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}), class: 'font-medium text-blue-600 dark:text-blue-500 hover:underline' %></td>
+            <% elsif @stocks.where(symbol: @quote.symbol).any? && !current_user.is_active %>
+              <td class="py-3 px-6 text-center">Prohibited</td>
+            <% else %>
+              <td class="py-3 px-6 text-center">Not Available</td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
+    <h1 class="w-full text-center text-xl font-bold text-white mb-2">What We Offer</h1>
+    <table class="w-full text-sm text-left text-gray-400">
+      <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+        <tr>
+          <th class="py-3 px-6">Company</th>
+          <th class="py-3 px-6 text-center">Symbol</th>
+          <th class="py-3 px-6 text-center">Latest Price</th>
+          <th class="py-3 px-6 text-center">Change</th>
+          <th class="py-3 px-6 text-center">Buy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @stocks.each do |stock| %>
+          <% @api = @client.quote(stock.symbol) %>
+          <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
+            <td class="py-3 px-6 font-medium whitespace-nowrap text-white"><%= stock.name %></td>
+            <td class="py-3 px-6 text-center"><%= stock.symbol %></td>
+            <td class="py-3 px-6 text-center"><%= number_to_currency(@api.latest_price, precision: 2) %></td>
+            <% if @api.change < 0 %>
+              <td class="py-3 px-6 text-red-600 text-center"><%= number_to_currency(@api.change, precision: 2) %></td>
+            <% else %>
+              <td class="py-3 px-6 text-green-600 text-center"><%= number_to_currency(@api.change, precision: 2) %></td>
+            <% end %>
+            <% if current_user.is_active %>
+              <td class="py-3 px-6 text-center"><%= link_to "Buy Shares", buy_stock_path({:stock_id => stock, :name => stock.name, :symbol => stock.symbol, :price => @api.latest_price}), class: 'font-medium text-blue-600 dark:text-blue-500 hover:underline' %></td>
+            <% else %>
+              <td class="py-3 px-6 text-center">Prohibited</td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
+    <h1 class="w-full text-center text-xl font-bold text-white mb-2">Trending Stocks</h1>
+    <table class="w-full text-sm text-left text-gray-400">
+      <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+        <tr>
+          <th class="py-3 px-6">Company</th>
+          <th class="py-3 px-6 text-center">Symbol</th>
+          <th class="py-3 px-6 text-center">Latest Price</th>
+          <th class="py-3 px-6 text-center">Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @client_list.each do |stock| %>
+          <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
+            <td class="py-3 px-6 font-medium whitespace-nowrap text-white"><%= stock.company_name %></td>
+            <td class="py-3 px-6 text-center"><%= stock.symbol %></td>
+            <td class="py-3 px-6 text-center"><%= number_to_currency(stock.latest_price, precision: 2) %></td>
+            <% if stock.change < 0 %>
+              <td class="py-3 px-6 text-red-600 text-center"><%= number_to_currency(stock.change, precision: 2) %></td>
+            <% else %>
+              <td class="py-3 px-6 text-green-600 text-center"><%= number_to_currency(stock.change, precision: 2) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
-  <p>No account yet? <%= link_to "Sign up!", new_user_registration_path %></p>
-  <p>Already have an account? <%= link_to "Login", new_user_session_path %></p>
+  <div class="max-w-[512px] mx-auto flex flex-col gap-4 place-items-center justify-center my-auto pt-10">
+    <div class="">
+      <div class="flex flex-col justify-center gap-2">
+        <h2 class="text-4xl font-extrabold dark:text-white text-center">Welcome to Avion Trading</h2>
+        <p class="mt-4 text-lg text-gray-500">Your companion to assure the security of tomorrow.</p>
+        <p class="mt-4 text-lg text-gray-500 text-justify">"I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful." — Warren Buffett</p>
+      </div>
+    </div>
+    <div class="">
+      <%= image_tag ("/assets/trade.png"), class: 'max-w-full h-auto' %>
+    </div>
+  </div>
 <% end %>
-
-
-
-
-

@@ -1,47 +1,49 @@
-<h1>New User</h1>
+<div class="w-full flex place-items-center justify-center">
+  <div class="w-96">
+    <h1 class="w-full text-center">New User</h1>
 
-<%= form_with model: User.new, url: admin_create_user_path,  local: true do |f| %>
+    <%= form_with model: User.new, url: admin_create_user_path,  local: true do |f| %>
 
-  <%= f.hidden_field :role, :value => 'trader' %>
+      <%= f.hidden_field :role, :value => 'trader' %>
 
-  <p>
-    <% if @user.errors.any? %>
-      <ul>
-        <% @user.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-          <% end %>
-      </ul>
+      <div class="mb-2">
+        <% if @user.errors.any? %>
+          <ul>
+            <% @user.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+              <% end %>
+          </ul>
+        <% end %>
+      </div>
+      
+      <div class="mb-2">
+        <%= f.label :first_name %><br>
+        <%= f.text_field :first_name, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.label :last_name %><br>
+        <%= f.text_field :last_name, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.label :email %><br>
+        <%= f.text_field :email, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.label :password %><br>
+        <%= f.password_field :password, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-6">
+        <%= f.label :password_confirmation %><br>
+        <%= f.password_field :password_confirmation, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.submit class: 'w-full text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-blue-800 hover:cursor-pointer' %>
+      </div>
     <% end %>
-  </p>
-  
-  <p>
-    <%= f.label :first_name %><br>
-    <%= f.text_field :first_name %>
-  </p>
-
-  <p>
-    <%= f.label :last_name %><br>
-    <%= f.text_field :last_name %>
-  </p>
-
-  <p>
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </p>
-
-  <p>
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
-  </p>
-
-  <p>
-    <%= f.label :password_confirmation %><br>
-    <%= f.password_field :password_confirmation %>
-  </p>
-
-  
-
-  <p>
-    <%= f.submit %>
-  </p>
-<% end %>
+  </div>
+</div>

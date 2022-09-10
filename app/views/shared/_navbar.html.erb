@@ -1,0 +1,47 @@
+<nav class="py-2.5 bg-slate-900 flex-none">
+  <div class="flex justify-between w-full">
+    <a href="http://localhost:3000/" class="flex items-center">
+      <span class="self-center text-2xl font-semibold whitespace-nowrap text-gray-300 hover:text-white">Avion Trading</span>
+    </a>
+    <div>
+      <ul class="flex pr-0 py-4 pl-4 gap-6 rounded-lg bg-slate-900">
+        <% if current_user.present? %>
+          <% if current_user.trader? %>
+            <li>
+              <a href="http://localhost:3000" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Home</a>
+            </li>
+            <li>
+              <a href="http://localhost:3000/portfolio" class="block py-2 px-4  rounded text-gray-400  hover:text-white">Portfolio</a>
+            </li>
+            <li>
+              <a href="http://localhost:3000/transactions" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Transactions</a>
+            </li>
+            <li>
+              <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'font-medium text-blue-600 text-blue-500 hover:underline block py-2 px-4' %>
+            </li>
+          <% elsif current_user.admin? %>
+            <li>
+              <a href="http://localhost:3000/admin" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Home</a>
+            </li>
+            <li>
+              <a href="http://localhost:3000/admin/transactions" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Transactions</a>
+            </li>
+            <li>
+              <%= link_to 'Add User', admin_new_user_path, class: 'block py-2 px-4  rounded text-gray-400 hover:text-white' %>
+            </li>
+            <li>
+              <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'font-medium text-blue-500 hover:underline block py-2 px-4' %>
+            </li>
+          <% end %>
+        <% else %>
+          <li>
+            <%= link_to "Login", new_user_session_path, class: 'font-medium text-blue-500 hover:underline' %>
+          </li>
+          <li>
+            <%= link_to "Sign up", new_user_registration_path, class: 'font-medium text-blue-500 hover:underline' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,47 +1,45 @@
-<h1>Transactions#buy</h1>
-<p>Find me in app/views/transactions/buy.html.erb</p>
-
-<h1>Buy Shares</h1>
-
-<%= form_with model: [@stock, @transaction], url: create_buy_stock_transactions_path, local: true do |f| %>
-
-  <%= f.hidden_field :transaction_type, :value => 'Buy' %>
-  <%= f.hidden_field :is_active, :value => true %>
-  <p>
-    <% if @transaction.errors.any?  %>
-      <ul>
-        <% @transaction.errors..each do |error| %>
-          <li><%= error.full_message %></li>
+<div class="w-full flex place-items-center justify-center">
+  <div class="w-96">
+    <h1 class="w-full text-center">Buy Shares</h1>
+    <%= form_with model: [@stock, @transaction], url: create_stock_transactions_path, local: true do |f| %>
+      <%= f.hidden_field :transaction_type, :value => 'Buy' %>
+      <%= f.hidden_field :is_active, :value => true %>
+      <div>
+        <% if @transaction.errors.any?  %>
+          <ul>
+            <% @transaction.errors..each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
         <% end %>
-      </ul>
+      </div>
+
+      <div class="mb-2">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, :value => params[:name], readonly: true,  class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.label :symbol %><br />
+        <%= f.text_field :symbol, :value => params[:symbol], readonly: true,  class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.label :price %><br />
+        <%= f.text_field :price, :value => params[:price], readonly: true, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div class="mb-2">
+
+      <div class="mb-6">
+        <%= f.label :quantity %><br />
+        <%= f.number_field :quantity, class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>
+      </div>
+
+      <div class="mb-2">
+        <%= f.submit 'Buy', class: 'w-full text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-blue-800 hover:cursor-pointer' %>
+      </div>
+        
     <% end %>
-  </p>
+  </div>
+</div>
 
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name, :value => params[:name]%>
-  </p>
-
-  <p>
-    <%= f.label :symbol %><br />
-    <%= f.text_field :symbol, :value => params[:symbol] %>
-  </p>
-
-  <p>
-    <%= f.label :price %><br />
-    <%= f.text_field :price, :value => params[:price], readonly: true %>
-  </p>
-
-  <p>
-    <%= f.label :quantity %><br />
-    <%= f.text_field :quantity %>
-  </p>
-
- 
-    
-  <p>
-    <%= f.submit 'Buy' %>
-  </p>
-  
-<% end %>
 

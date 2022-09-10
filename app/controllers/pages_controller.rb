@@ -2,9 +2,21 @@ class PagesController < ApplicationController
   before_action :get_user_and_users
   before_action :authenticate_user!, except: [:home]
   before_action :set_stocks_and_transactions, only: [:portfolio]
+  before_action :set_api, only: [:portfolio, :home]
   before_action :get_all_tables, only: [:admin_show_user]
+ 
 
   def home
+    if current_user.present?
+      if current_user.admin?
+        redirect_to admin_home_path
+      end
+    end
+    @stocks = Stock.all
+    if params[:q].present?
+      @quote = @client.quote(params[:q])
+    end
+    render layout: 'trader'
   end
 
   def admin_home
@@ -12,16 +24,19 @@ class PagesController < ApplicationController
     @inactive_users = @users.where(is_active: false)
     @active_users = @users.where(is_active: true)
     @stocks = Stock.all
+    render layout: 'admin'
   end
 
   def admin_show_user
     @user = User.find(params[:id])
     @active = @transactions.where(is_active: true, user_id: @user.id)
     @unique = @active.select('stock_id as stock_id, sum(quantity) as total_quantity').group(:stock_id)
+    render layout: 'admin'
   end
 
   def new_user
     @new_user = User.new
+    render layout: 'admin'
   end
 
   def create_user
@@ -36,6 +51,7 @@ class PagesController < ApplicationController
 
   def edit_user
     @user = User.find(params[:id])
+    render layout: 'admin'
   end
 
   def update_user
@@ -54,25 +70,25 @@ class PagesController < ApplicationController
 
   def activate_user
     @user = User.find(params[:id])
+    render layout: 'admin'
   end
 
   def portfolio
-    require 'iex-ruby-client'
     @active = @transactions.where(is_active: true)
     @unique = @active.select('stock_id as stock_id, sum(quantity) as total_quantity').group(:stock_id)
-
-    @client = IEX::Api::Client.new
-    @client_list = @client.stock_market_list(:mostactive)
+    render layout: 'trader'
   end
 
   def transactions
     @transactions = @user.transactions.order(:created_at).reverse_order
     @stocks = Stock.all
+    render layout: 'trader'
   end
 
   def admin_transactions
     @transactions = Transaction.all.order(:created_at).reverse_order
-    @stocks = Stock.all 
+    @stocks = Stock.all
+    render layout: 'admin' 
   end
 
   def set_stocks_and_transactions
@@ -89,6 +105,12 @@ class PagesController < ApplicationController
     @users = User.all 
     @stocks = Stock.all 
     @transactions = Transaction.all
+  end
+
+  def set_api
+    require 'iex-ruby-client'
+    @client = IEX::Api::Client.new
+    @client_list = @client.stock_market_list(:mostactive)
   end
 
   private

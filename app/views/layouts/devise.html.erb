@@ -11,11 +11,16 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="p-6 bg-slate-900 text-white">
+  <body class="px-8 bg-slate-900 text-white relative flex flex-col min-h-screen justify-between">
+    
+    <%= render 'shared/navbar' %>
     <div class="flex-none italic text-sm">
       <%= notice if notice %>
       <%= alert if alert %>
     </div>
-    <%= yield %>
+    <div class="flex-auto">
+      <%= yield %>
+    </div>
+    <%= render 'shared/footer' %>
   </body>
 </html>

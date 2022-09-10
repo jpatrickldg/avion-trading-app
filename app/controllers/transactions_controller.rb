@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
   before_action :get_stock
   before_action :set_transaction, only: [:sell, :update_transaction]
   before_action :get_user
-  layout "trader", only: [:stock_transactions, :sell, :buy]
+  before_action :check_authorization
 
   def stock_transactions
     @transactions = @stock.transactions.where(user_id: @user.id, is_active: true)
@@ -39,9 +39,7 @@ class TransactionsController < ApplicationController
     end
   end
 
-
-  def destroy
-    
+  def destroy 
   end
 
   def get_stock
@@ -54,6 +52,12 @@ class TransactionsController < ApplicationController
 
   def get_user
     @user = current_user
+  end
+
+  def check_authorization
+    if current_user.role == 'admin'
+      redirect_to admin_dashboard_path, notice: 'Permission Denied'
+    end
   end
 
   private

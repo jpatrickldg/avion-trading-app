@@ -1,7 +1,5 @@
 class TradersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :get_all_tables, :get_user_and_users, :get_current_user_transactions, :set_api
-  layout "trader"
+  before_action :authenticate_user!, :check_authorization, :get_all_tables, :get_user_and_users, :get_current_user_transactions, :set_api
   
   def dashboard
     if params[:q].present?
@@ -38,4 +36,11 @@ class TradersController < ApplicationController
     @client = IEX::Api::Client.new
     @client_list = @client.stock_market_list(:mostactive)
   end
+
+  def check_authorization
+    if current_user.role == 'admin'
+      redirect_to admin_dashboard_path, notice: 'Permission Denied'
+    end
+  end
+
 end

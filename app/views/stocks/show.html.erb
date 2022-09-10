@@ -1,7 +1,0 @@
-<h3><%= @quote.symbol %></h3>
-<p><%= @quote.company_name %></p>
-<p>Price: <%= number_to_currency(@quote.latest_price, precision: 2) %></p>
-<p>Open: <%= number_to_currency(@quote.open, precision: 2) %></p>
-<p>Close: <%= number_to_currency(@quote.close, precision: 2) %></p>
-
-<%= link_to "Buy Shares", buy_stock_path({:stock_id => @stock.id, :name => @quote.company_name, :symbol => @quote.symbol, :price => @quote.latest_price}) %>

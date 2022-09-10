@@ -22,7 +22,7 @@ class TransactionsController < ApplicationController
     @transaction.user_id = current_user.id
     
     if @transaction.save!
-      redirect_to user_transactions_path
+      redirect_to trader_transactions_path, notice: "Transaction Successful"
     else
       render :buy
     end
@@ -33,7 +33,7 @@ class TransactionsController < ApplicationController
     old_amount = @transaction.amount
     if @transaction.update(is_active_params)
       @transaction.add_sell_transaction(old_price, old_amount)
-      redirect_to user_transactions_path
+      redirect_to trader_transactions_path, notice: "Transaction Successful"
     else
       render :sell
     end

@@ -68,7 +68,7 @@ class AdminsController < ApplicationController
 
   def check_authorization
     if current_user.role == 'trader'
-      redirect_to trader_dashboard_path, notice: 'Permission Denied'
+      redirect_to trader_dashboard_path, notice: 'Access Denied'
     end
   end
 

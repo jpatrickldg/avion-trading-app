@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   root 'pages#home'
 
-  #################################ADMINS ROUTES#################################
+  ##################################ADMINS ROUTES##################################
   get '/admin' => 'admins#dashboard', :as => 'admin_dashboard'
   get '/admin/transactions' => 'admins#transactions', :as => 'admin_transactions'
   post '/admin/users' => 'admins#create_user', :as => 'admin_create_user'
@@ -16,15 +16,15 @@ Rails.application.routes.draw do
   get 'admin/users/:id/activate' => 'admins#activate_user', as: 'admin_activate_user'
   get 'admin/users/:id/' => 'admins#show_user', as: 'admin_show_user'
   patch 'admin/users/:id' => 'admins#update_user', as: 'admin_update_user'
-  ################################END ADMIN ROUTES################################
+  #################################END ADMIN ROUTES#################################
 
-  #################################TRADERS ROUTES#################################
+  ##################################TRADERS ROUTES##################################
   get '/trader' => 'traders#dashboard', :as => 'trader_dashboard'
   get '/portfolio' => 'traders#portfolio', :as => 'trader_portfolio'
   get '/transactions' => 'traders#transactions', :as => 'trader_transactions'
   ################################END TRADERS ROUTES################################
 
-  ################################TRANSACTIONS ROUTES################################
+  ################################TRANSACTIONS ROUTES###############################
   # get '/transactions' => 'transactions#index', :as => 'transactions'
   get '/stocks/:stock_id/transactions' => 'transactions#stock_transactions', :as => 'stock_transactions'
   post '/stocks/:stock_id/transactions' => 'transactions#create_stock_transaction', :as => 'create_stock_transactions'

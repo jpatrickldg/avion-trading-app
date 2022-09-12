@@ -56,7 +56,7 @@ class TransactionsController < ApplicationController
 
   def check_authorization
     if current_user.role == 'admin'
-      redirect_to admin_dashboard_path, notice: 'Permission Denied'
+      redirect_to admin_dashboard_path, notice: 'Access Denied'
     end
   end
 

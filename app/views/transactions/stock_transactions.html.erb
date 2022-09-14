@@ -19,7 +19,7 @@
             <td class="py-3 px-6 text-center"><%= transaction.created_at %></td>
             <td class="py-3 px-6 text-center"><%= transaction.quantity %></td>
             <td class="py-3 px-6 text-center"><%= number_to_currency(transaction.amount, precision: 2) %></td>
-            <% if transaction.amount < @current_value %>
+            <% if transaction.amount <= @current_value %>
               <td class="py-3 px-6 text-center text-green-600"><%= number_to_currency(@current_value, precision: 2) %></td>
             <% else %>
               <td class="py-3 px-6 text-center text-red-600"><%= number_to_currency(@current_value, precision: 2) %></td>

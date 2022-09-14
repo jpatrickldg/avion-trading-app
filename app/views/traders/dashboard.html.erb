@@ -17,7 +17,7 @@
   <% end %>
 </div>
 
-<% if @quote.present? %>
+<% if @try %>
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-5">
     <table class="w-full text-sm text-left text-gray-400">
       <thead class="text-xs uppercase bg-gray-700 text-gray-400">
@@ -35,9 +35,9 @@
           <td class="py-3 px-6 text-center"><%= @quote.symbol %></td>
           <td class="py-3 px-6 text-center"><%= number_to_currency(@quote.latest_price, precision: 2) %></td>
           <% if @quote.change < 0 %>
-            <td class="py-3 px-6 text-red-600 text-center"><%= @quote.change %></td>
+            <td class="py-3 px-6 text-red-600 text-center"><%= number_to_currency(@quote.change, precision: 2) %></td>
           <% else %>
-            <td class="py-3 px-6 text-green-600 text-center"><%= @quote.change %></td>
+            <td class="py-3 px-6 text-green-600 text-center"><%= number_to_currency(@quote.change, precision: 2) %></td>
           <% end %>
           <% if @stocks.where(symbol: @quote.symbol).any? && current_user.is_active %>
             <% @stock = @stocks.where(symbol: @quote.symbol)%>
@@ -50,6 +50,10 @@
         </tr>
       </tbody>
     </table>
+  </div>
+<% else %>
+  <div class="w-full flex justify-center place-items-center mb-5">
+    <p class="italic text-red-600">Symbol not found</p>
   </div>
 <% end %>
 

@@ -3,7 +3,12 @@ class TradersController < ApplicationController
   
   def dashboard
     if params[:q].present?
-      @quote = @client.quote(params[:q])
+      @try = true
+      begin
+        @quote = @client.quote(params[:q])
+      rescue => exception
+        @try = false
+      end
     end
   end
 

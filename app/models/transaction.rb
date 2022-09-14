@@ -9,7 +9,6 @@ class Transaction < ApplicationRecord
   validates :is_active, inclusion: [true, false]
   validates :transaction_type, presence: true
   validates :price, presence: true
-  validates :amount, presence: true
 
   def set_amount
     self.amount = self.price.to_f * self.quantity.to_f

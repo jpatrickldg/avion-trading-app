@@ -32,11 +32,6 @@ RSpec.describe Transaction, type: :model do
       expect(transaction).to_not be_valid
     end
 
-    it 'will not accept empty amount' do
-      transaction.amount = nil
-      expect(transaction).to_not be_valid
-    end
-
     it 'will not accept empty user' do
       transaction.user_id = nil
       expect(transaction).to_not be_valid

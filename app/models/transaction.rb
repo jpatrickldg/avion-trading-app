@@ -5,6 +5,11 @@ class Transaction < ApplicationRecord
   # after_commit :add_sell_transaction, on: :update
   before_create :set_amount, unless: Proc.new { self.transaction_type == "Sell" }
 
+  validates :quantity, presence: true
+  validates :is_active, inclusion: [true, false]
+  validates :transaction_type, presence: true
+  validates :price, presence: true
+  validates :amount, presence: true
 
   def set_amount
     self.amount = self.price.to_f * self.quantity.to_f

@@ -3,6 +3,7 @@ class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:sell, :update_transaction]
   before_action :get_user
   before_action :check_authorization
+  before_action :authenticate_user!
 
   def stock_transactions
     @transactions = @stock.transactions.where(user_id: @user.id, is_active: true)
@@ -22,7 +23,7 @@ class TransactionsController < ApplicationController
     @transaction.user_id = current_user.id
     
     if @transaction.save!
-      redirect_to trader_transactions_path, notice: "Transaction Successful"
+      redirect_to trader_transactions_path, notice: "Buy Transaction Successful"
     else
       render :buy
     end
@@ -33,7 +34,7 @@ class TransactionsController < ApplicationController
     old_amount = @transaction.amount
     if @transaction.update(is_active_params)
       @transaction.add_sell_transaction(old_price, old_amount)
-      redirect_to trader_transactions_path, notice: "Transaction Successful"
+      redirect_to trader_transactions_path, notice: "Sell Transaction Successful"
     else
       render :sell
     end

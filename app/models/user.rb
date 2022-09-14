@@ -8,6 +8,10 @@ class User < ApplicationRecord
          :confirmable
   enum role: [:trader, :admin]
   after_initialize :set_default_role, :if => :new_record?
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   def set_default_role
     self.role ||= :trader
   end

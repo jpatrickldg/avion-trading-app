@@ -1,8 +1,8 @@
 <nav class="py-2.5 bg-slate-900 flex-none">
   <div class="flex justify-between w-full">
-    <a href="http://localhost:3000/" class="flex items-center">
-      <span class="self-center text-2xl font-semibold whitespace-nowrap text-gray-300 hover:text-white">Avion Trading</span>
-    </a>
+    <div class="flex items-center">
+      <%= link_to 'Avion Trading', root_path, class: "self-center text-2xl font-semibold whitespace-nowrap text-gray-300 hover:text-white" %>
+    </div>
     <div>
       <ul class="flex pr-0 py-4 pl-4 gap-6 rounded-lg bg-slate-900">
         <% if current_user.present? %>

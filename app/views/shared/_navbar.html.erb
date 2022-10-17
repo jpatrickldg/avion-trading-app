@@ -8,23 +8,23 @@
         <% if current_user.present? %>
           <% if current_user.trader? %>
             <li>
-              <a href="http://localhost:3000/trader" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Home</a>
+              <%= link_to 'Home', trader_dashoboard, class: "block py-2 px-4  rounded text-gray-400 hover:text-white" %>
             </li>
             <li>
-              <a href="http://localhost:3000/portfolio" class="block py-2 px-4  rounded text-gray-400  hover:text-white">Portfolio</a>
+              <%= link_to 'Portfolio', trader_portfolio, class: "block py-2 px-4  rounded text-gray-400 hover:text-white" %>
             </li>
             <li>
-              <a href="http://localhost:3000/transactions" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Transactions</a>
+              <%= link_to 'Transactions', trader_transactions, class: "block py-2 px-4  rounded text-gray-400 hover:text-white" %>
             </li>
             <li>
               <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'font-medium text-blue-600 text-blue-500 hover:underline block py-2 px-4' %>
             </li>
           <% elsif current_user.admin? %>
             <li>
-              <a href="http://localhost:3000/admin" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Home</a>
+              <%= link_to 'Home', admin_dashboard, class: "block py-2 px-4  rounded text-gray-400 hover:text-white" %>
             </li>
             <li>
-              <a href="http://localhost:3000/admin/transactions" class="block py-2 px-4  rounded text-gray-400 hover:text-white">Transactions</a>
+              <%= link_to 'Transactions', admin_transactions, class: "block py-2 px-4  rounded text-gray-400 hover:text-white" %>
             </li>
             <li>
               <%= link_to 'Add User', admin_new_user_path, class: 'block py-2 px-4  rounded text-gray-400 hover:text-white' %>

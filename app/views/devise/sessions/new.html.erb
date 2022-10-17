@@ -2,7 +2,7 @@
     <div class="w-96">
       <h2 class="w-full text-center">Log in</h2>
       <div class="w-full">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false} }) do |f| %>
           <div class="mb-2">
             <%= f.label :email %><br />
             <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'w-full border text-white text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' %>

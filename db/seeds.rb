@@ -5,24 +5,29 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+User.destroy_all 
+Stock.destroy_all
+
 user1 = User.new 
-user1.email = "admin@admin.com"
+user1.email = "admin@test.com"
 user1.password = "123456"
 user1.password_confirmation = "123456"
 user1.first_name = "admin"
 user1.last_name = "admin"
 user1.role = 1
 user1.confirmed_at = Time.now
+user1.is_active = true
 user1.save!
 
 user2 = User.new 
-user2.email = "test@test.com"
+user2.email = "trader@test.com"
 user2.password = "123456"
 user2.password_confirmation = "123456"
-user2.first_name = "test"
-user2.last_name = "test"
+user2.first_name = "trader"
+user2.last_name = "trader"
 user2.role = 0
 user2.confirmed_at = Time.now
+user2.is_active = true
 user2.save!
 
 stock1 = Stock.new 

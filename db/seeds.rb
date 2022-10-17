@@ -12,6 +12,7 @@ user1.password_confirmation = "123456"
 user1.first_name = "admin"
 user1.last_name = "admin"
 user1.role = 1
+user1.confirmed_at = Time.now
 user1.save!
 
 user2 = User.new 
@@ -21,6 +22,7 @@ user2.password_confirmation = "123456"
 user2.first_name = "test"
 user2.last_name = "test"
 user2.role = 0
+user2.confirmed_at = Time.now
 user2.save!
 
 stock1 = Stock.new 

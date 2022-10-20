@@ -1,24 +1,45 @@
-# README
+# Stock Trading App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A stock trading app where users can register as traders to buy and sell shares of a company. Click [here](https://avion-trading-app.herokuapp.com/) to view the app on Heroku. :smile:
 
-Things you may want to cover:
+#### Test Accounts (Password: `123456`)
+- Admin: `admin@test.com`
+- Trader: `trader@test.com`
 
-* Ruby version
 
-* System dependencies
+### Homepage
+![Screenshot](./screenshots/screenshot6.png)
 
-* Configuration
+### Admin Pages
+![Screenshot](./screenshots/screenshot7.png)
+![Screenshot](./screenshots/screenshot8.png)
 
-* Database creation
+### Trader Pages
+![Screenshot](./screenshots/screenshot1.png)
+![Screenshot](./screenshots/screenshot2.png)
+![Screenshot](./screenshots/screenshot3.png)
+![Screenshot](./screenshots/screenshot4.png)
+![Screenshot](./screenshots/screenshot5.png)
 
-* Database initialization
+## Built With
 
-* How to run the test suite
+- [Ruby on Rails](https://rubyonrails.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [TailwindCSS](https://tailwindcss.com/)
 
-* Services (job queues, cache servers, search engines, etc.)
+## Version
+```
+* Ruby 3.1.2
+* Rails 7.0.4
+```
 
-* Deployment instructions
-
-* ...
+## Setup
+```
+ $ bundle install
+ $ rails db:setup
+```
+ 
+## Starting the application
+```
+ $ rails server
+```

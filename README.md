@@ -1,11 +1,6 @@
 # Stock Trading App
 
-A stock trading app where users can register as traders to buy and sell shares of a company. Click [here](https://avion-trading-app.herokuapp.com/) to view the app on Heroku. :smile:
-
-#### Test Accounts (Password: `123456`)
-- Admin: `admin@test.com`
-- Trader: `trader@test.com`
-
+A stock trading app where users can register as traders to buy and sell shares of a company.
 
 ### Homepage
 ![Screenshot](./screenshots/screenshot6.png)
@@ -43,3 +38,7 @@ A stock trading app where users can register as traders to buy and sell shares o
 ```
  $ rails server
 ```
+
+## Test Accounts (Password: `123456`)
+- Admin: `admin@test.com`
+- Trader: `trader@test.com`
